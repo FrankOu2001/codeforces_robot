@@ -1,6 +1,5 @@
 from nonebot.default_config import *
 
-
 """
 @author: Frank_Ou
 @time: 2021-11-29 13:23
@@ -10,5 +9,8 @@ from nonebot.default_config import *
 # 配置超级用户
 SUPERUSERS = {1204630052}
 # 命令前缀
-COMMAND_START = {'.', '。'}
-
+COMMAND_START = {'.', '。', ''}
+# 设定昵称, 确定是否在群里叫它
+NICKNAME = {'伞兵'}
+# debug模式
+DEBUG = False
