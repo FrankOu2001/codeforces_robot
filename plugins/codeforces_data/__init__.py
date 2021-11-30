@@ -1,7 +1,5 @@
 import sys
-import json
-import urllib.request
-import urllib.parse
+import httpx
 
 from nonebot import on_command, CommandSession
 from plugins.time import timestamp_convert
@@ -11,17 +9,19 @@ __plugin_usage__ = '拉取codeforces的相关数据'
 
 
 async def get_request(url):
+    global request
     try:
-        request = urllib.request.urlopen(url, timeout=5)
-        get = json.loads(request.read())
+        request = httpx.get(url, timeout=3)
+        get = request.json()
 
-        if request.getcode() == 200 and get['status'] == 'OK':
-            return 1, get['result'][0]
+        if request.status_code == httpx.codes.OK and get['status'] == 'OK' and len(get['result']):
+            print(get['result'])
+            return True, get['result'][0]
         else:
-            return -1, None
-    except urllib.error.HTTPError as exception:
-        print(exception.code, file=sys.stderr)
-        return -2, request.getcode()
+            return False, request.status_code
+    except httpx.HTTPError:
+        print(request.status_code, file=sys.stderr)
+        return False, request.status_code
 
 
 @on_command('get_user_info', aliases=['查询', 'info'])
@@ -29,24 +29,26 @@ async def get_user_info(session: CommandSession):
     user_url = "https://codeforces.com/api/user.info?handles="
     user_name = session.current_arg_text.strip()
     if user_name.isspace():
-        return None
+        await session.send("查询名称不能为空")
+        return
 
     status, info = await get_request(user_url + user_name)
-
-    if status == 1:
+    if status:
         sent_message = """Name: {name}
 Last visit: {time}
 Rank: {rank}
 Rating: {rating}
 Score change in the last game: {scoreChange}
 Max rating: {maxRating}""" \
-            .format(name=info['handle'],
-                    time=await timestamp_convert(info['lastOnlineTimeSeconds']),
-                    rank=info['rank'], rating=info['rating'],
-                    scoreChange='coming soon', maxRating=info['maxRating'])
-    elif status == -1:
-        sent_message = "%s不存在，请重新尝试" % user_name
+            .format(name=info.get('handle', 'anonymous'),
+                    time=await timestamp_convert(info.get('lastOnlineTimeSeconds', 'very long')),
+                    rank=info.get('rank', 'unknown'), rating=info.get('rating', 'unknown'),
+                    scoreChange='coming soon', maxRating=info.get('maxRating', 'unknown'))
     else:
-        sent_message = "网络异常, code=" + str(info)
+        if info == 200 or 400:
+            sent_message = "用户: %s不存在" % user_name
+            pass
+        else:
+            sent_message = "http code=%d" % info
 
     await session.send(sent_message)
