@@ -15,15 +15,7 @@ async def get_current_time() -> str:
     return datetime.now().strftime("%Y年%m月%d日 %H:%M:%S")
 
 
-async def get_last_login_time(time_stamp: int) -> str:
-    current_time_stamp = datetime.timestamp(datetime.now())
-    if abs(current_time_stamp - time_stamp) <= 3:
-        return "Online"
-    else:
-        return datetime.utcfromtimestamp(time_stamp).\
+async def timestamp_convert(time_stamp: int) -> str:
+    return datetime.fromtimestamp(time_stamp).\
             strftime("%Y-%m-%d %H:%M:%S")
 
-
-if __name__ == "__main__":
-    s = get_last_login_time(datetime.now().timestamp())
-    print(s)
