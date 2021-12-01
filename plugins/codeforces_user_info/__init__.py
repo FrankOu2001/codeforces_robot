@@ -2,10 +2,11 @@ import sys
 import httpx
 
 from nonebot import on_command, CommandSession
+from plugins.codeforces_contests.contests_info import get_contests
 from plugins.time import timestamp_convert
 from aiocqhttp.message import MessageSegment
 
-__plugin_name = 'codeforces_data'
+__plugin_name = 'codeforces_user_info'
 __plugin_usage__ = '拉取codeforces的相关数据'
 
 
