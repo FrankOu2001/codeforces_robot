@@ -3,6 +3,7 @@ import httpx
 
 from nonebot import on_command, CommandSession
 from plugins.time import timestamp_convert
+from aiocqhttp.message import MessageSegment
 
 __plugin_name = 'codeforces_data'
 __plugin_usage__ = '拉取codeforces的相关数据'
@@ -44,6 +45,8 @@ Max rating: {maxRating}""" \
                     time=await timestamp_convert(info.get('lastOnlineTimeSeconds', 'very long')),
                     rank=info.get('rank', 'unknown'), rating=info.get('rating', 'unknown'),
                     scoreChange='coming soon', maxRating=info.get('maxRating', 'unknown'))
+        title_img_url = info.get('titlePhoto')
+        await session.send(MessageSegment.image(title_img_url, timeout=3))
     else:
         if info == 200 or 400:
             sent_message = "用户: %s不存在" % user_name
