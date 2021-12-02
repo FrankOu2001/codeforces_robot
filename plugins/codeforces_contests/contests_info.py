@@ -26,8 +26,14 @@ async def __get_contest(data) -> dict:
     return {'contestName': constestName, 'contestTime': contestTime, 'registerLink': registerLink}
 
 
-async def get_contests() -> list:
-    origin_data = httpx.get('https://codeforces.com/contests', timeout=5)
+async def get_contests():
+    global origin_data
+    try:
+        origin_data = httpx.get('https://codeforces.com/contests', timeout=5)
+    except Exception as e:
+        print(e)
+        return False, 408
+
     if origin_data.status_code != 200:
         return False, origin_data.status_code
     s = BeautifulSoup(origin_data, 'html.parser')
