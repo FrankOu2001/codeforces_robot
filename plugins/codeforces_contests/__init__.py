@@ -1,5 +1,5 @@
 from nonebot import on_command, CommandSession
-
+from aiocqhttp.message import MessageSegment
 from plugins.codeforces_contests.contests_info import get_contests
 
 
@@ -12,16 +12,16 @@ async def get_future_contests(session: CommandSession):
         elif contests == 302:
             await session.send('当前即将进入比赛或正在进行比赛中, 无法查询(302)')
         else:
-            await session.end('http code=%d' % contests)
+            await session.end('未知的错误http code=%d' % contests)
     else:
 
         msg = "Recent Contests:\n\n"
-        await session.send(msg)
         for contest in contests:
-            s = "{contestName}\n" \
+            msg += "{contestName}\n" \
                 "Start Time:{contestTime}\n" \
                 "Register Link:{registerLink}\n\n". \
                 format(contestName=contest['contestName'],
                        contestTime=contest['contestTime'],
                        registerLink=contest['registerLink'])
-            await session.send(s)
+        await session.send(MessageSegment.text(msg.strip('\n')))
+
