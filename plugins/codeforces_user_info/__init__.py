@@ -11,7 +11,6 @@ __plugin_usage__ = '拉取codeforces的相关数据'
 
 
 async def get_request(url):
-    global request
     try:
         request = httpx.get(url, timeout=3)
         get = request.json()
@@ -21,9 +20,9 @@ async def get_request(url):
             return True, get['result'][0]
         else:
             return False, request.status_code
-    except httpx.HTTPError:
-        print(request.status_code, file=sys.stderr)
-        return False, request.status_code
+    except httpx.HTTPError as e:
+        print(e, file=sys.stderr)
+        return False, e
 
 
 @on_command('get_user_info', aliases=['查询', 'info'])
