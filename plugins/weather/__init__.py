@@ -13,18 +13,21 @@ async def getRequest(url):
     try:
         request = httpx.get(url, timeout=3)
         get = request.json()
+        print(request)
         return get
     except httpx.HTTPError as e:
         print(e, file=sys.stderr)
 
 
 async def getWeather(location):
+    global __key
     weather_url = 'https://devapi.qweather.com/v7/weather/now?key={}&location={}'.format(__key, location)
     get = await getRequest(weather_url)
     return get['now']
 
 
 async def getLocation(city):
+    global __key
     location_url = 'https://geoapi.qweather.com/v2/city/lookup?key={}&location={}&range=cn'.format(__key, city)
     get = await getRequest(location_url)
     if get['code'] == '200':
