@@ -7,7 +7,7 @@ from nonebot.default_config import *
 """
 
 # 配置超级用户
-SUPERUSERS = {1204630052}
+SUPERUSERS = {1204630052, 523669596}
 # 命令前缀
 COMMAND_START = {'.', '。', ''}
 # 设定昵称, 确定是否在群里叫它
