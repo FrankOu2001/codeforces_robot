@@ -3,7 +3,7 @@ from aiocqhttp.message import MessageSegment
 from plugins.codeforces_contests.contests_info import get_contests
 
 
-@on_command('get_future_contests', aliases=['近期比赛', 'contests'])
+@on_command('get_future_contests', aliases=['近期比赛', 'contests', 'contest'])
 async def get_future_contests(session: CommandSession):
     status, contests = await get_contests()
     if not status:
