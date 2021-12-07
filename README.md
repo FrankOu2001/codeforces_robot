@@ -1,7 +1,18 @@
-# codeforces_qqbot
+# Codeforces_qqbot
 
-## How to start
+## 部署
 
-1. generate project using `nb create` .
-2. writing your plugins under `src/plugins` folder.
-3. run your bot using `nb run` .
+
+## 功能
+
+### 查询codeforces个人信息
+
+### 查询codeforces比赛信息
+
+### 查询天气
+
+### 在线运行代码
+
+### 查询机器人运行状态
+
+## Todo
