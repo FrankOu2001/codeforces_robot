@@ -5,8 +5,8 @@ from nonebot import on_command, CommandSession
 async def Help(session: CommandSession):
     totalHelp = """如果在群聊中，你可以直接@此bot来开始命令，例如：
 @bot echo BOKI
-或者，你可以用'|'/'伞兵'/'cf'来让bot接收你的命令，例如：
-伞兵 echo BOKI/|echo BOKI/ cf echo BOKI
+或者，你可以用'/'/'伞兵'/'cf'来让bot接收你的命令，例如：
+伞兵 echo BOKI/ /echo BOKI / cf echo BOKI
 =======================
 目前bot拥有的命令：
 echo XXXX 让bot来说XXXXXX，图片或表情也可
