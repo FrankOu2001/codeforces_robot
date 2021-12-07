@@ -1,6 +1,6 @@
 import re
-
 import requests
+
 
 codeType = {
     'py': ['python', 'py'],
@@ -17,15 +17,16 @@ codeType = {
 }
 
 
-async def run(strcode):
-    strcode = strcode.replace('&amp;', '&').replace('&#91;', '[').replace('&#93;', ']')
+async def run(text):
+    text = text.replace('&amp;', '&').replace('&#91;', '[').replace('&#93;', ']')
     try:
-        code_type = re.findall(r'(py|java|cpp|js|ts|c#|c|go|asm|rust|lua)(\n|\r)(((?:.|\n)+)(---\n|---\r))?((?:.|\n)+)', strcode)[0]
+        code_type = \
+        re.findall(r'(py|java|cpp|js|ts|c#|c|go|asm|rust|lua)(\n|\r)(((?:.|\n)+)(---\n|---\r))?((?:.|\n)+)', text)[0]
     except:
-        return "格式出错或不支持该语言\n"+strcode
+        return "格式出错或不支持该语言\n" + text
 
     # print(code_type)
-    lang, stdin, code = code_type[0], code_type[3],code_type[5]
+    lang, stdin, code = code_type[0], code_type[3], code_type[5]
     headers = {
         "Authorization": "Token d913f0b5-02d3-4cf8-b6cd-e56c058c5bf8",
         "content-type": "application/"
