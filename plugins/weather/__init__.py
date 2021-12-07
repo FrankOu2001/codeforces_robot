@@ -39,6 +39,11 @@ async def getLocation(city):
 @on_command('weather', aliases=['天气', 'weather_info'])
 async def Weather(session: CommandSession):
     city = session.current_arg_text.strip()
+    if city == '兔头':
+        await session.send('兔头已被光明伟大正义聪慧的我，bot，夺舍了desu！')
+        return
+    if city == '乃琳' or city == '珈乐' or city == '嘉然' or city == '向晚' or city == '贝拉':
+        city = '枝江'
     if not city:
         await session.send('请输入地区名称！')
         return

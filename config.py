@@ -11,6 +11,6 @@ SUPERUSERS = {1204630052, 523669596}
 # 命令前缀
 COMMAND_START = {'.', '。', ''}
 # 设定昵称, 确定是否在群里叫它
-NICKNAME = {'伞兵', 'cf', '傻逼'}
+NICKNAME = {'伞兵', 'cf', '傻逼', ' '}
 # debug模式
 DEBUG = False
