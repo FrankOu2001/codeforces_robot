@@ -1,5 +1,3 @@
-import asyncio
-
 import httpx
 
 from bs4 import BeautifulSoup
@@ -45,8 +43,3 @@ async def get_contests():
         recent_contests.append(await __get_contest(i))
 
     return True, recent_contests
-
-
-if __name__ == '__main__':
-    loop = asyncio.get_event_loop()
-    loop.run_until_complete(get_contests())

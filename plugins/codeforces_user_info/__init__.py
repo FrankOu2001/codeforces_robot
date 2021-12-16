@@ -1,12 +1,14 @@
 import sys
 import httpx
 
-from nonebot import on_command, CommandSession
-from plugins.codeforces_contests.contests_info import get_contests
+from nonebot import on_command
+from nonebot.rule import to_me
+from nonebot.adapters import Bot, Event
+from nonebot.typing import T_State
 from plugins.time import timestamp_convert
 from aiocqhttp.message import MessageSegment
 
-__plugin_name = 'codeforces_user_info'
+__plugin_name__ = 'codeforces_user_info'
 __plugin_usage__ = '拉取codeforces的相关数据'
 
 
@@ -25,12 +27,16 @@ async def get_request(url):
         return False, e
 
 
-@on_command('get_user_info', aliases=['查询', 'info'])
-async def get_user_info(session: CommandSession):
+session = on_command("info", rule=to_me(), priority=5)
+
+
+@session.handle()
+async def get_user_info(bot: Bot, event: Event, state: T_State):
     user_url = "https://codeforces.com/api/user.info?handles="
-    user_name = session.current_arg_text.strip()
-    if user_name.isspace():
-        await session.send("查询名称不能为空")
+    user_name = str(event.get_message()).strip()
+    print('user_name=%s' % user_name)
+    if user_name == "":
+        await session.reject("查询名称不能为空, 请重新输入要查找的用户名")
         return
 
     status, info = await get_request(user_url + user_name)
@@ -54,4 +60,4 @@ Max rating: {maxRating}""" \
         else:
             sent_message = "http code=%d" % info
 
-    await session.send(sent_message)
+    await session.finish(sent_message)

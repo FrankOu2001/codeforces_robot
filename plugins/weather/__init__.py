@@ -1,12 +1,15 @@
 import sys
 import httpx
-from nonebot import on_command, CommandSession
+from nonebot import on_command
+from nonebot.rule import to_me
+from nonebot.adapters import Bot, Event
+from nonebot.typing import T_State
 from plugins import time
 
-__plugin_name = 'weather'
-__plugin_usage = '拉取中国各地(市/区(县))天气'
+__plugin_name__ = 'weather'
+__plugin_usage__ = '拉取中国各地(市/区(县))天气'
 
-__key = '7a32b1049b374cb39269f7529f506366'
+__key__ = '7a32b1049b374cb39269f7529f506366'
 
 
 async def getRequest(url):
@@ -20,39 +23,42 @@ async def getRequest(url):
 
 
 async def getWeather(location):
-    global __key
-    weather_url = 'https://devapi.qweather.com/v7/weather/now?key={}&location={}'.format(__key, location)
+    global __key__
+    weather_url = 'https://devapi.qweather.com/v7/weather/now?key={}&location={}'.format(__key__, location)
     get = await getRequest(weather_url)
     return get['now']
 
 
 async def getLocation(city):
-    global __key
-    location_url = 'https://geoapi.qweather.com/v2/city/lookup?key={}&location={}&range=cn'.format(__key, city)
+    global __key__
+    location_url = 'https://geoapi.qweather.com/v2/city/lookup?key={}&location={}&range=cn'.format(__key__, city)
     get = await getRequest(location_url)
     if get['code'] == '200':
         return get['location']
     else:
         return False
 
+session = on_command("天气", rule=to_me(), priority=3)
 
-@on_command('weather', aliases=['天气', 'weather_info'])
-async def Weather(session: CommandSession):
-    city = session.current_arg_text.strip()
+
+@session.handle()
+
+@session.got('city', '请重新输入正确的地名')
+async def Weather(bot: Bot, event: Event, state: T_State):
+    city = str(event.get_message()).strip()
     if city == '兔头':
         await session.send('兔头已被光明伟大正义聪慧的我，bot，夺舍了desu！')
-        return
-    if city == '乃琳' or city == '珈乐' or city == '嘉然' or city == '向晚' or city == '贝拉':
+    elif city in ('乃琳', '珈乐', '嘉然', '向晚', '贝拉'):
         city = '枝江'
+
     if not city:
-        await session.send('请输入地区名称！')
-        return
+        await session.reject('请输入地区名称！')
+
     city = await getLocation(city)
     if type(city) == bool:
-        await session.send('请检查地区名称是否正确！')
+        await session.reject('请检查地区名称是否正确后重新输入！')
     else:
-        message = """查询时间: {}
-""".format(await time.get_current_time())
+        message = "查询时间 %s" % await time.get_current_time()
         #         for i in city:
         text = """名称: {}
 实时气温: {}℃
@@ -64,10 +70,5 @@ async def Weather(session: CommandSession):
         message += text.format(city[0]['name'], weather['temp'],
                                weather['humidity'], weather['vis'],
                                weather['windDir'], weather['windScale'])
-#             city_id = i['id']
-#             weather = await getWeather(city_id)
-#             message += text.format(i['name'], weather['temp'],
-#                                    weather['humidity'], weather['vis'],
-#                                    weather['windDir'], weather['windScale'])
         print(message)
-        await session.send(message)
+        await session.finish(message)
