@@ -1,27 +1,31 @@
-from nonebot import on_command, CommandSession
+from nonebot import on_command
+from nonebot.rule import to_me
+from nonebot.typing import T_State
+from nonebot.adapters import Bot, Event
 from aiocqhttp.message import MessageSegment
-from plugins.codeforces_contests.contests_info import get_contests
+from codeforces_services import get_contests
+
+session = on_command("contests", rule=to_me(), priority=2)
 
 
-@on_command('get_future_contests', aliases=['近期比赛', 'contests'])
-async def get_future_contests(session: CommandSession):
+@session.handle()
+async def get_future_contests(bot: Bot, event: Event, state: T_State):
     status, contests = await get_contests()
     if not status:
         if contests == 404:
-            await session.send('当前无法访问Codeforces, 请稍后重试(404)')
+            await session.finish('当前无法访问Codeforces, 请稍后重试(404)')
         elif contests == 302:
-            await session.send('当前即将进入比赛或正在进行比赛中, 无法查询(302)')
+            await session.finish('当前即将进入比赛或正在进行比赛中, 无法查询(302)')
         else:
-            await session.end('未知的错误http code=%d' % contests)
+            await session.finish('未知的错误http code=%d' % contests)
     else:
 
         msg = "Recent Contests:\n\n"
         for contest in contests:
             msg += "{contestName}\n" \
-                "Start Time:{contestTime}\n" \
-                "Register Link:{registerLink}\n\n". \
+                   "Start Time:{contestTime}\n" \
+                   "Register Link:{registerLink}\n\n". \
                 format(contestName=contest['contestName'],
                        contestTime=contest['contestTime'],
                        registerLink=contest['registerLink'])
-        await session.send(MessageSegment.text(msg.strip('\n')))
-
+        await session.finish(MessageSegment.text(msg.strip('\n')))
