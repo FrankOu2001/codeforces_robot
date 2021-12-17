@@ -4,7 +4,7 @@ from bs4 import BeautifulSoup
 from datetime import datetime, timedelta
 
 
-async def __get_contest(data) -> dict:
+async def __get_contest__(data) -> dict:
     tags = data.find_all('td')
     constestName: str = tags[0].string
     constestName = constestName.replace(r'\n', '').replace(r'\r', '').strip()
@@ -14,7 +14,6 @@ async def __get_contest(data) -> dict:
     time_info = time_info[time_info.index('?') + 1:]
     contestTime = datetime.strptime(time_info, 'day=%d&month=%m&year=%Y&hour=%H&min=%M&sec=%S&p1=166')
     contestTime += timedelta(hours=+5)
-    contestTime = contestTime.strftime("%Y-%m-%d %H:%M:%S")
 
     registerLink = 'none'
     if len(href[-1]) > 0:
@@ -40,6 +39,6 @@ async def get_contests():
 
     recent_contests = list()
     for i in table[1:]:
-        recent_contests.append(await __get_contest(i))
+        recent_contests.append(await __get_contest__(i))
 
     return True, recent_contests

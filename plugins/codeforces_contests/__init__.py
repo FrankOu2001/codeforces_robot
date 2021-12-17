@@ -26,6 +26,6 @@ async def get_future_contests(bot: Bot, event: Event, state: T_State):
                    "Start Time:{contestTime}\n" \
                    "Register Link:{registerLink}\n\n". \
                 format(contestName=contest['contestName'],
-                       contestTime=contest['contestTime'],
+                       contestTime=contest['contestTime'].strftime("%Y-%m-%d %H:%M:%S"),
                        registerLink=contest['registerLink'])
         await session.finish(MessageSegment.text(msg.strip('\n')))
