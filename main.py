@@ -6,7 +6,7 @@ from nonebot.adapters.cqhttp import Bot
 @function: basic settings of codeforces robot
 """
 
-nonebot.init()
+nonebot.init(apscheduler_autostart=True)
 driver = nonebot.get_driver()
 driver.register_adapter("cqhttp", Bot)
 
