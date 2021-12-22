@@ -23,7 +23,7 @@ async def __monitor__():
 
     for i in contests:
         time = i['contestTime']
-        if (time - datetime.now()) < timedelta(hours=2):
+        if (time - datetime.now()) < timedelta(hours=6):
             job_id = i['contestName']
             end_time: datetime = time - timedelta(minutes=20)
             begin_time: datetime = end_time - timedelta(seconds=30)
@@ -47,10 +47,3 @@ async def __add_job__(args):
         event.group_id = i
         await bot.send(event=event, message=msg)
 
-
-session = on_command("jobs", rule=nonebot.rule.to_me(), priority=1, permission=SUPERUSER)
-
-
-@session.handle()
-async def _(bot: Bot, event: Event, state: T_State):
-    scheduler.print_jobs()
