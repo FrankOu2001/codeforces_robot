@@ -15,8 +15,9 @@ scheduler = require("nonebot_plugin_apscheduler").scheduler
 session = on_command('考勤', rule=to_me(), priority=2)
 
 
-@scheduler.scheduled_job("cron", id="work attendance", day_of_week='mon-fri, sun', hour=18, minute=30)
-async def task_adapter():
+@scheduler.scheduled_job("cron", id="__reminder_adapter", day_of_week='mon-fri, sun', hour=18, minute=30)
+async def __reminder_adapter():
+    # 每周天到周一的打卡提醒
     logger.info('Operate cycling task: daily attendance')
     bot = nonebot.get_bot()
     event = GroupMessageEvent
@@ -61,7 +62,6 @@ async def group_message_adapter(bot: Bot, event: GroupMessageEvent):
 async def attendance_result(query_time: datetime = datetime.today()) -> tuple[str, str]:
     """
     发送集训队的考勤状况
-
     :return: 缺勤和请假的信息
     """
 

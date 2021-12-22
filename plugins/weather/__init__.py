@@ -16,7 +16,6 @@ async def getRequest(url):
     try:
         request = httpx.get(url, timeout=3)
         get = request.json()
-        print(request)
         return get
     except httpx.HTTPError as e:
         print(e, file=sys.stderr)
@@ -38,12 +37,11 @@ async def getLocation(city):
     else:
         return False
 
+
 session = on_command("天气", rule=to_me(), priority=3)
 
 
 @session.handle()
-
-@session.got('city', '请重新输入正确的地名')
 async def Weather(bot: Bot, event: Event, state: T_State):
     city = str(event.get_message()).strip()
     if city == '兔头':
@@ -70,5 +68,4 @@ async def Weather(bot: Bot, event: Event, state: T_State):
         message += text.format(city[0]['name'], weather['temp'],
                                weather['humidity'], weather['vis'],
                                weather['windDir'], weather['windScale'])
-        print(message)
         await session.finish(message)
