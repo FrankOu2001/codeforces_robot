@@ -4,7 +4,7 @@ from bs4 import BeautifulSoup
 from datetime import datetime, timedelta
 
 
-async def __get_contest__(data) -> dict:
+async def __get_contest(data) -> dict:
     tags = data.find_all('td')
     constestName: str = tags[0].string
     constestName = constestName.replace(r'\n', '').replace(r'\r', '').strip()
@@ -24,7 +24,6 @@ async def __get_contest__(data) -> dict:
 
 
 async def get_contests():
-    global origin_data
     try:
         origin_data = httpx.get('https://codeforces.com/contests', timeout=5)
     except Exception as e:
@@ -39,6 +38,6 @@ async def get_contests():
 
     recent_contests = list()
     for i in table[1:]:
-        recent_contests.append(await __get_contest__(i))
+        recent_contests.append(await __get_contest(i))
 
     return True, recent_contests

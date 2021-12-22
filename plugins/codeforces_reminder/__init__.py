@@ -42,7 +42,7 @@ async def __add_job__(args):
            "在20分钟后开始\n"
            "比赛链接{}\n").format(contest['contestName'], contest['registerLink'])
 
-    send_groups = [926293131]
+    send_groups = [926293131, 516991226]
     for i in send_groups:
         event.group_id = i
         await bot.send(event=event, message=msg)
