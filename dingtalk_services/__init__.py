@@ -35,8 +35,7 @@ class DingTalk_Client:
         """
         client = DingTalk_Client.__create_client()
         get_access_token_request = dingtalk_models.GetAccessTokenRequest(
-            app_key=f'dingqygbzgevtnrfwfsm',
-            app_secret=f'75jdIDf0sQ7NGbehLyHlYO1JiFgFk5-aftAIaAq7kXOeZbpQxTy0tNv3AJQArlfV'
+
         )
         try:
             request = await client.get_access_token_async(get_access_token_request)
