@@ -4,11 +4,9 @@ from datetime import datetime, timedelta
 
 import nonebot
 import nonebot.rule
-from nonebot import require, Bot, on_command
-from nonebot.permission import SUPERUSER
-from nonebot.adapters.cqhttp.event import GroupMessageEvent, Event
-from nonebot.typing import T_State
-from codeforces_services import get_contests
+from nonebot import require
+from nonebot.adapters.cqhttp.event import GroupMessageEvent
+from src.codeforces_services import get_contests
 
 scheduler = require("nonebot_plugin_apscheduler").scheduler
 

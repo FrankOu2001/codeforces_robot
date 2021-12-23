@@ -4,7 +4,7 @@ from nonebot import on_command
 from nonebot.rule import to_me
 from nonebot.adapters import Bot, Event
 from nonebot.typing import T_State
-from plugins import time
+from src.plugins import time
 
 __plugin_name__ = 'weather'
 __plugin_usage__ = '拉取中国各地(市/区(县))天气'
