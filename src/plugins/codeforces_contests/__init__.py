@@ -3,7 +3,7 @@ from nonebot.rule import to_me
 from nonebot.typing import T_State
 from nonebot.adapters import Bot, Event
 from aiocqhttp.message import MessageSegment
-from codeforces_services import get_contests
+from src.codeforces_services import get_contests
 
 session = on_command("contests", rule=to_me(), priority=2)
 

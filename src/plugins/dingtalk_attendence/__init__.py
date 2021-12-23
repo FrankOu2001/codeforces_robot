@@ -8,7 +8,7 @@ from nonebot.rule import to_me
 from nonebot import require, Bot, on_command
 from nonebot.adapters.cqhttp.event import GroupMessageEvent
 from nonebot.adapters.cqhttp import GROUP_OWNER
-from dingtalk_services import get_vacation, get_absence
+from src.dingtalk_services import get_vacation, get_absence
 
 # 浪在ACM群号: 516991226
 scheduler = require("nonebot_plugin_apscheduler").scheduler
@@ -49,10 +49,10 @@ async def group_message_adapter(bot: Bot, event: GroupMessageEvent):
         query_time -= timedelta(days=2)
     else:
         try:
-            query_time = datetime.strptime(msg, "%Y %m %d")
+            query_time = datetime.strptime(msg, "%Y.%m.%d")
         except:
             print("illegal format: %s" % msg, file=sys.stderr)
-            await session.finish("输入的日期不合法，合法格式为：年 月 日")
+            await session.finish("输入的日期不合法，合法格式为：年.月.日")
 
     absence, vacation = await attendance_result(query_time)
     await session.send(absence)
@@ -69,7 +69,7 @@ async def attendance_result(query_time: datetime = datetime.today()) -> tuple[st
 
     # 请假
     in_vacation = await get_vacation(absence, query_time)
-    logger.error(len(absence))
+    logger.warning(f'{len(absence)} people are absent')
     # 缺勤
     bad_guys = [x for x in absence
                 if x not in in_vacation]
