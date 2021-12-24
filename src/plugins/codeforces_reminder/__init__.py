@@ -11,7 +11,7 @@ from src.codeforces_services import get_contests
 scheduler = require("nonebot_plugin_apscheduler").scheduler
 
 
-@scheduler.scheduled_job("interval", hours=2, id="__monitor__")
+@scheduler.scheduled_job("interval", hours=1, id="__monitor__")
 async def __monitor__():
     status, contests = await get_contests()
 
@@ -23,9 +23,9 @@ async def __monitor__():
         time = i['contestTime']
         if (time - datetime.now()) < timedelta(hours=6):
             job_id = i['contestName']
-            end_time: datetime = time - timedelta(minutes=20)
-            begin_time: datetime = end_time - timedelta(seconds=30)
             if not scheduler.get_job(job_id):
+                end_time: datetime = time - timedelta(minutes=20)
+                begin_time: datetime = end_time - timedelta(seconds=30)
                 scheduler.add_job(__add_job__, "interval", id=job_id, args=i, seconds=20,
                                   start_date=begin_time.strftime("%Y-%m-%d %H:%M:%S"),
                                   end_date=end_time.strftime("%Y-%m-%d %H:%M:%S"))
