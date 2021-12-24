@@ -24,7 +24,7 @@ async def __reminder_adapter():
     event.group_id = 516991226
     absence, vacation = await attendance_result()
     await bot.send(event=event, message=absence)
-    await bot.send(event=event, message=absence)
+    await bot.send(event=event, message=vacation)
 
 
 @session.handle()
