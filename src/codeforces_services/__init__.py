@@ -17,7 +17,7 @@ async def __get_contest(data) -> dict:
 
     registerLink = 'none'
     if len(href[-1]) > 0:
-        registerLink = 'https://codeforces.com/' + \
+        registerLink = 'https://codeforces.com' + \
                        href[-1][0]['href']
 
     return {'contestName': constestName, 'contestTime': contestTime, 'registerLink': registerLink}
