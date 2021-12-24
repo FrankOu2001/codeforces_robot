@@ -4,9 +4,9 @@ import httpx
 from nonebot import on_command
 from nonebot.rule import to_me
 from nonebot.adapters import Bot, Event
+from nonebot.adapters.cqhttp import MessageSegment
 from nonebot.typing import T_State
 from src.plugins.time import timestamp_convert
-from aiocqhttp.message import MessageSegment
 
 __plugin_name__ = 'codeforces_user_info'
 __plugin_usage__ = '拉取codeforces的相关数据'
