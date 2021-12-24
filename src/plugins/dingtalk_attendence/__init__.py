@@ -15,7 +15,7 @@ scheduler = require("nonebot_plugin_apscheduler").scheduler
 session = on_command('考勤', rule=to_me(), priority=2)
 
 
-@scheduler.scheduled_job("cron", id="__reminder_adapter", day_of_week='mon-fri, sun', hour=18, minute=30)
+@scheduler.scheduled_job("cron", id="__reminder_adapter", day_of_week='mon-fri, sun', hour=19)
 async def __reminder_adapter():
     # 每周天到周一的打卡提醒
     logger.info('Operate cycling task: daily attendance')
