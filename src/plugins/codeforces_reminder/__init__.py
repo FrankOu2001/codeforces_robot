@@ -4,6 +4,7 @@ from datetime import datetime, timedelta
 
 import nonebot
 import nonebot.rule
+from nonebot import logger
 from nonebot import require
 from nonebot.adapters.cqhttp.event import GroupMessageEvent
 from src.codeforces_services import get_contests
@@ -11,37 +12,40 @@ from src.codeforces_services import get_contests
 scheduler = require("nonebot_plugin_apscheduler").scheduler
 
 
-@scheduler.scheduled_job("interval", hours=1, id="__monitor__")
+@scheduler.scheduled_job("cron", id="__monitor__", hour='4, 12, 20')
+# @scheduler.scheduled_job('interval', id='__monitor__', seconds=10) # for debug
 async def __monitor__():
     status, contests = await get_contests()
 
     if not status:
-        print("Failed to get contests %d" % contests, file=sys.stderr)
+        logger.error("Failed to get contests %d" % contests)
         return
 
     for i in contests:
-        time = i['contestTime']
-        if (time - datetime.now()) < timedelta(hours=6):
+        time: datetime = i['contestTime']
+        if (time - datetime.now()) <= timedelta(hours=12):
+            if datetime.now().hour == 20:
+                await __add_job__([i])
             job_id = i['contestName']
             if not scheduler.get_job(job_id):
-                end_time: datetime = time - timedelta(minutes=20)
-                begin_time: datetime = end_time - timedelta(seconds=30)
-                scheduler.add_job(__add_job__, "interval", id=job_id, args=i, seconds=20,
-                                  start_date=begin_time.strftime("%Y-%m-%d %H:%M:%S"),
-                                  end_date=end_time.strftime("%Y-%m-%d %H:%M:%S"))
+                broadcast_time: datetime = time - timedelta(minutes=20)
+                scheduler.add_job(__add_job__, "date", id=job_id, args=[i],
+                                  run_date=broadcast_time)
 
 
 async def __add_job__(args):
-    contest, job_id = args
+    contest = args[0]
 
     bot = nonebot.get_bot()
     event = GroupMessageEvent
-    msg = ("{}\n"
-           "在20分钟后开始\n"
-           "比赛链接{}\n").format(contest['contestName'], contest['registerLink'])
+    count: timedelta = contest['contestTime'] - datetime.now()
+
+    msg = (f"{contest['contestName']}\n" +
+           f"在{int(count.total_seconds() // 60)}分钟后开始\n" +
+           f"比赛链接{contest['registerLink']}")
+    logger.debug(msg)
 
     send_groups = [926293131, 516991226]
     for i in send_groups:
         event.group_id = i
         await bot.send(event=event, message=msg)
-

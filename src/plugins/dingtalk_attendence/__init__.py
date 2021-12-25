@@ -32,10 +32,12 @@ async def group_message_adapter(bot: Bot, event: GroupMessageEvent):
     logger.info('Get attendance check from %s' % event.group_id)
 
     # 判断发送拉取考勤的信息的群是否是指定的群
-    if not (event.group_id in [516991226, 539756695] and (SUPERUSER | await GROUP_OWNER(bot, event))):
-        logger.warning('{} 不在处理的群号中，无法调用'.format(event.group_id))
+    if event.group_id not in [516991226, 539756695]:
+        logger.warning('{} 不在处理的群号中，无法调用考勤查询'.format(event.group_id))
         await session.finish()
         return
+    elif await SUPERUSER | await GROUP_OWNER(bot, event):
+        logger.warning(f'{event.get_user_id} 没有权限调用考勤查询')
 
     msg = str(event.get_message()).strip()
     query_time = datetime.today()
