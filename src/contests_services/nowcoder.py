@@ -37,7 +37,7 @@ async def get_contests(contest):
         link = 'https://ac.nowcoder.com/acm' + h4.a['href']
         _ = [x.string.strip().replace('\n', '').replace('：', ' ').split()
              for x in i.ul.find_all('li')]
-        print(_)
+
         register_time = (
             datetime.strptime(' '.join(_[0][1:3:]), '%Y-%m-%d %H:%M'),
             datetime.strptime(' '.join(_[0][4:6:]), '%Y-%m-%d %H:%M')
