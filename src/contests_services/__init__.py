@@ -9,11 +9,11 @@ async def get_contest(contest_type: str = "") -> list:
         await codeforces.get_contests(contest)
         await nowcoder.get_contests(contest)
         await atcoder.get_contests(contest)
-    elif str == 'cf':
+    elif contest_type == 'cf':
         await codeforces.get_contests(contest)
-    elif str == 'nk':
+    elif contest_type == 'nk':
         await nowcoder.get_contests(contest)
-    elif str == 'at':
+    elif contest_type == 'at':
         await atcoder.get_contests(contest)
 
     return contest
