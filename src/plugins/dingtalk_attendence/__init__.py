@@ -36,7 +36,7 @@ async def group_message_adapter(bot: Bot, event: GroupMessageEvent):
         logger.warning('{} 不在处理的群号中，无法调用考勤查询'.format(event.group_id))
         await session.finish()
         return
-    elif await SUPERUSER | await GROUP_OWNER(bot, event):
+    elif await (GROUP_OWNER(bot, event) | SUPERUSER):
         logger.warning(f'{event.get_user_id} 没有权限调用考勤查询')
 
     msg = str(event.get_message()).strip()
