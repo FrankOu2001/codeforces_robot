@@ -1,6 +1,7 @@
 from nonebot import logger
 from datetime import datetime
-from src.dingtalk_services import get_vacation, get_absence
+from src.dingtalk_services.vacation import get_vacation
+from src.dingtalk_services.absence import get_absence
 
 
 async def attendance_result(query_time: datetime = datetime.today()) -> tuple[str, str]:

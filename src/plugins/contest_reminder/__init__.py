@@ -17,7 +17,7 @@ scheduler = require("nonebot_plugin_apscheduler").scheduler
 async def __monitor__():
     contests = await get_contest()
 
-    if len(contests) is 0:
+    if len(contests) == 0:
         logger.error("Failed to get contests %d" % contests)
         return
 
