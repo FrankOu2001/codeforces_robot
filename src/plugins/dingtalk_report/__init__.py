@@ -14,7 +14,7 @@ session = on_command('出勤统计', rule=to_me(), priority=2)
 @session.handle()
 async def _(bot: Bot, event: GroupMessageEvent):
     global begin, end
-    if not permission_checker(bot, event):
+    if not await permission_checker(bot, event):
         await session.finish()
         return
 
