@@ -36,7 +36,7 @@ async def get_contests():
             continue
 
         name = h4.a.string
-        link = 'https://ac.nowcoder.com/acm' + h4.a['href']
+        link = 'https://ac.nowcoder.com' + h4.a['href']
         _ = [x.string.strip().replace('\n', '').replace('：', ' ').split()
              for x in i.ul.find_all('li')]
 
