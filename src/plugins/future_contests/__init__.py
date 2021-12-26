@@ -42,4 +42,3 @@ async def send(args: str, bot: Bot, event: Event):
         msg = msg.strip('\n')
 
         await session.send(msg)
-    pass
