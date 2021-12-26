@@ -28,7 +28,7 @@ async def get_future_contests(bot: Bot, event: Event, state: T_State):
 
 async def send(args: str, bot: Bot, event: Event):
     contest = await get_contest(args)
-    if len(contest) is 0:
+    if len(contest) == 0:
         await session.finish(f'无法获取比赛{args}')
     else:
         msg = ''
