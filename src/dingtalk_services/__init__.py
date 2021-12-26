@@ -66,4 +66,6 @@ __TOKEN = DingTalk_Client()
 
 async def get_access_token():
     global __TOKEN
+    if __TOKEN is None:
+        __TOKEN = DingTalk_Client
     return __TOKEN.get_access_token()

@@ -17,9 +17,7 @@ async def get_absence(query_time) -> list[tuple]:
     :return: 每个缺勤用户的name, user_id
     """
 
-    access_token = await get_access_token()
-
-    req_url = 'https://oapi.dingtalk.com/attendance/list?access_token=' + access_token
+    req_url = f'https://oapi.dingtalk.com/attendance/list?access_token={await get_access_token()}'
     users_info, id_to_name = await get_users()
     today = query_time.strftime('%Y-%m-%d')
 

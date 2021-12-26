@@ -32,7 +32,7 @@ async def get_report(date_range: tuple[datetime, datetime]) -> list[(str, int, i
     :param date_range: 查询的时间范围
     :return: (姓名, 旷工次数, 出勤天数)
     """
-    url = f'https://oapi.dingtalk.com/topapi/attendance/getcolumnval?access_token={get_access_token()}'
+    url = f'https://oapi.dingtalk.com/topapi/attendance/getcolumnval?access_token={await get_access_token()}'
 
     # 这两个值是可以通过调用API查询的，上面的函数就可以获取
     absence_id = "335106609"
