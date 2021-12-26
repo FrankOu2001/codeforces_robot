@@ -1,19 +1,23 @@
-import src.contests_services.nowcoder
-import src.contests_services.atcoder
-import src.contests_services.codeforces
+from . import codeforces, nowcoder, atcoder
 
 
-async def get_contest(contest_type: str = "") -> list:
-    contest = []
-    if contest_type == '':
-        await codeforces.get_contests(contest)
-        await nowcoder.get_contests(contest)
-        await atcoder.get_contests(contest)
-    elif contest_type == 'cf':
-        await codeforces.get_contests(contest)
-    elif contest_type == 'nk':
-        await nowcoder.get_contests(contest)
-    elif contest_type == 'at':
-        await atcoder.get_contests(contest)
+async def get_contest(type: str) -> list:
+    """
+    获取各个平台的比赛
 
-    return contest
+    目前支持的平台:
+    codeforces
+    atcoder
+    nowcoder
+
+    :param type:
+    :return:
+    """
+    if type == 'cf':
+        return await codeforces.get_contests()
+    elif type == 'at':
+        return await atcoder.get_contests()
+    elif type == 'nk':
+        return await nowcoder.get_contests()
+
+    return []

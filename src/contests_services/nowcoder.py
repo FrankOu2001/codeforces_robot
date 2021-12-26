@@ -6,7 +6,7 @@ from nonebot import logger
 from bs4 import BeautifulSoup
 
 
-async def get_contests(contest):
+async def get_contests():
     """
     爬取牛客网的比赛
     :return: 返回(状态， 比赛/http_code)
@@ -24,6 +24,8 @@ async def get_contests(contest):
 
     data = BeautifulSoup(nk_get, 'html.parser'). \
         find_all('div', 'platform-item js-item')
+
+    contest = []
 
     for i in data:
         h4 = i.h4

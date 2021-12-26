@@ -6,7 +6,7 @@ from bs4 import BeautifulSoup
 from datetime import datetime, timedelta
 
 
-async def get_contests(contest):
+async def get_contests():
     """
     爬取Cf的比赛
     :return: 返回(状态， 比赛/http_code)
@@ -18,8 +18,9 @@ async def get_contests(contest):
         return
 
     s = BeautifulSoup(origin_data, 'html.parser').find(id='pageContent').div.div.table
-
     tr = s.find_all('tr')[1::]
+
+    contest = []
 
     for i in tr:
         k = i.find_all('td')
@@ -46,4 +47,6 @@ async def get_contests(contest):
             'link': link,
             'contest_time': (begin_time, end_time)
         })
+
+        return contest
 
