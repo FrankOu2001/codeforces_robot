@@ -37,7 +37,7 @@ async def send(args: str, bot: Bot, event: Event):
             link = x['link']
             begin, end = x['contest_time']
             msg += f"{name}\n" \
-                   f"RegisterLink: {link}\n" \
+                   f"Link: {link}\n" \
                    f"Time: {begin} - {end}\n\n"
         msg = msg.strip('\n')
 
