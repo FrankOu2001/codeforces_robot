@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "codeforces_qqbot"
-version = "0.1.1"
+version = "1.0.0"
 description = "codeforces_qqbot"
 authors = []
 readme = "README.md"

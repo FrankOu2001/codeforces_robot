@@ -23,7 +23,7 @@ async def get_vacation(absence: list, query_time) -> list:
     __ignore, id_to_name = await get_users()
     in_vacation = []
 
-    req_url = 'https://oapi.dingtalk.com/topapi/attendance/getleavestatus?access_token=' + accessToken
+    req_url = f'https://oapi.dingtalk.com/topapi/attendance/getleavestatus?access_token={accessToken}'
 
     for i in range(0, len(absence), 20):
         absence_list = [x[-1] for x in absence[i:i + 20:]]
@@ -44,5 +44,5 @@ async def get_vacation(absence: list, query_time) -> list:
 
         except httpx.HTTPError as e:
             print(e)
-    logger.info('There are {} users are in vacation'.format(len(in_vacation)))
+    logger.debug('There are {} users are in vacation'.format(len(in_vacation)))
     return in_vacation

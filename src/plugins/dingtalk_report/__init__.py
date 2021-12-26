@@ -18,7 +18,7 @@ async def _(bot: Bot, event: GroupMessageEvent):
         await session.finish()
         return
 
-    args = str(event.get_message).strip()
+    args = str(event.get_message()).strip()
     logger.debug(args)
     msg = ''
 
@@ -45,6 +45,6 @@ async def _(bot: Bot, event: GroupMessageEvent):
 
     result = await get_report((begin, end))
     for name, absence, attendance in result:
-        msg += f'{name} 缺勤次数:{absence} 出勤天数:{attendance}\n'
+        msg += f'{name}\t缺勤次数:{absence}\t出勤天数:{attendance}\n'
 
     await session.finish(msg)

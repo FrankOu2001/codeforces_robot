@@ -56,7 +56,7 @@ class DingTalk_Client:
 
         # 这里为了减少网络延迟造成的影响，将7200s的有效期缩短为7100s
         self.__accessToken_end_time = datetime.now() + timedelta(seconds=7100)
-        logger.success('Get AccessToken from DingTalk Client Successfully at %s' % datetime.now())
+        logger.debug('Get AccessToken from DingTalk Client Successfully at %s' % datetime.now())
 
         return self.__accessToken
 
