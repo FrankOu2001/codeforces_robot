@@ -80,9 +80,9 @@ run (py|java|cpp|js|ts|c#|c|go|asm|rust|lua)
     }]
 ```
 
-在项目中，爬取比赛时没有保留`holder`和`register_time`的信息，如果你对这两个信息有需求，建议参考上面的样式保存
+在本项目中，爬取比赛时没有保留`holder`和`register_time`的信息，如果你对这两个信息有需求，建议参考上面的样式保存
 
-如果你想看一个爬取比赛的具体例子，那么建议参考[nowcoder.py](src/contests_services/nowcoder.py)
+如果你想要一个获取比赛信息的实例，建议参考[nowcoder.py](src/contests_services/nowcoder.py)
 
 ### 钉钉API的适配
 
@@ -110,7 +110,7 @@ run (py|java|cpp|js|ts|c#|c|go|asm|rust|lua)
 
 `report.py`可以获取集训队所有成员的出勤次数和旷工次数，结果按照旷工次数从大到小排序，返回`(姓名, 旷工次数, 出勤天数)`形式的列表。
 
-使用者可以根据或二次开发这些服务, 修改或增加本项目中的插件
+使用者可以使用或二次开发这些服务, 来修改或增加本项目中的插件功能
 
 ## TODO
 - [ ] 将Codeforces比赛获取方式改为从API获取
