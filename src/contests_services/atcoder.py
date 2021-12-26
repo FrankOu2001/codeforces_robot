@@ -5,7 +5,7 @@ from bs4 import BeautifulSoup
 from datetime import datetime, timedelta
 
 
-async def get_contests(contest):
+async def get_contests():
     """
     爬取atcoder的比赛
     :return: 返回(状态， 比赛/http_code)
@@ -17,6 +17,7 @@ async def get_contests(contest):
         logger.error(f'获取atcoder比赛失败 http_code={e}')
         return
 
+    contest = []
     soup = BeautifulSoup(data, 'html.parser').body.div
     tr = soup.find(id="contest-table-upcoming").tbody.find_all('tr')
 
@@ -40,3 +41,4 @@ async def get_contests(contest):
             'contest_time': (begin_time, end_time)
         })
 
+    return contest
