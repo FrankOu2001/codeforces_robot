@@ -20,7 +20,7 @@ async def permission_checker(bot: Bot, event: GroupMessageEvent) -> bool:
         return False
     elif await GROUP_OWNER(bot, event) | await GROUP_ADMIN(bot, event) | await SUPERUSER(bot, event):
         return True
-    logger.warning(f'{event.get_user_id} 没有权限调用考勤查询')
+    logger.debug(f'{event.get_user_id} 没有权限调用考勤查询')
 
     return False
 

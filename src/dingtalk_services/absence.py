@@ -45,6 +45,6 @@ async def get_absence(query_time) -> list[tuple]:
 
     absence = [(x['name'], x['userid']) for x in users_info
                if x['userid'] not in attendance]
-    logger.warning('{} people are absent'.format(len(absence)))
+    logger.debug('{} people are absent'.format(len(absence)))
 
     return absence

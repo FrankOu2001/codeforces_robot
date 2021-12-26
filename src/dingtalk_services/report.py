@@ -10,7 +10,7 @@ from .user import get_users
 async def get_columns():
     """
     获取考勤报表列定义
-    :return:
+    :return: [考勤报表列定义]
     """
 
     url = f'https://oapi.dingtalk.com/topapi/attendance/getattcolumns?access_token={get_access_token()}'

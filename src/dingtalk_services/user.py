@@ -7,7 +7,7 @@ from . import get_access_token
 async def get_users() -> list[str: str]:
     """
     获取用户的name和userid
-    :return:
+    :return: ([用户信息], {userid: 姓名})
     """
 
     access_token = await get_access_token()
@@ -31,12 +31,12 @@ async def get_users() -> list[str: str]:
             result = post_get['result']
             users.extend(result['list'])
 
-        id_to_name = {x['userid']: x['name'] for x in users}
-
         # 第0个用户是鹿老师，没必要获取
+        id_to_name = {x['userid']: x['name'] for x in users[1::]}
+
         # id_to_name 是通过user_id来获得名字
         logger.success('Successfully get {} users'.format(len(users)))
-        return users[1::], id_to_name
+        return users, id_to_name
 
     except httpx.HTTPError as e:
         logger.error('获取用户name和id时出现错误', e)
