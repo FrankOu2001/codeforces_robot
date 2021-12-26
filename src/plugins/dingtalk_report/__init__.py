@@ -19,6 +19,7 @@ async def _(bot: Bot, event: GroupMessageEvent):
         return
 
     args = str(event.get_message).strip()
+    logger.debug(args)
     msg = ''
 
     if args in ['', '这个月', '本月']:
