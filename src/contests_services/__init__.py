@@ -1,6 +1,4 @@
-import src.contests_services.nowcoder
-import src.contests_services.atcoder
-import src.contests_services.codeforces
+from . import codeforces, nowcoder, atcoder
 
 
 async def get_contest(type: str) -> list:
