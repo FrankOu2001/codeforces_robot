@@ -9,7 +9,7 @@ from bs4 import BeautifulSoup
 async def get_contests():
     """
     爬取牛客网的比赛
-    :return: 返回(状态， 比赛/http_code)
+    :return: 返回[{name:, link:, contest_time:}]
     """
 
     # nk_url是牛客系列赛, school_url是高校系列赛

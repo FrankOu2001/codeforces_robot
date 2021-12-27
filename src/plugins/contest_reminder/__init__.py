@@ -38,7 +38,7 @@ async def __add_job__(args):
 
     bot = nonebot.get_bot()
     event = GroupMessageEvent
-    count: timedelta = contest['contest_name'][0] - datetime.now()
+    count: timedelta = contest['contest_time'][0] - datetime.now()
 
     msg = (f"{contest['name']}\n" +
            f"在{int(count.total_seconds() // 60)}分钟后开始\n" +

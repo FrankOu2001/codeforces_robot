@@ -9,7 +9,7 @@ from datetime import datetime, timedelta
 async def get_contests():
     """
     爬取Cf的比赛
-    :return: 返回(状态， 比赛/http_code)
+    :return: 返回[{name:, link:, contest_time:}]
     """
     try:
         origin_data = httpx.get('https://codeforces.com/contests', timeout=5)
