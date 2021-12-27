@@ -8,7 +8,7 @@ from datetime import datetime, timedelta
 async def get_contests():
     """
     爬取atcoder的比赛
-    :return: 返回(状态， 比赛/http_code)
+    :return: 返回[{name:, link:, contest_time:}]
     """
     global data
     try:

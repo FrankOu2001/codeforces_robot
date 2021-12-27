@@ -15,7 +15,7 @@ scheduler = require("nonebot_plugin_apscheduler").scheduler
 @scheduler.scheduled_job("cron", id="__monitor__", hour='4, 12, 20')
 # @scheduler.scheduled_job('interval', id='__monitor__', seconds=10) # for debug
 async def __monitor__():
-    contests = await get_contest()
+    contests = await get_contest('')
 
     if len(contests) == 0:
         logger.error("Failed to get contests %d" % contests)
@@ -38,7 +38,7 @@ async def __add_job__(args):
 
     bot = nonebot.get_bot()
     event = GroupMessageEvent
-    count: timedelta = contest['contest_name'][0] - datetime.now()
+    count: timedelta = contest['contest_time'][0] - datetime.now()
 
     msg = (f"{contest['name']}\n" +
            f"在{int(count.total_seconds() // 60)}分钟后开始\n" +
