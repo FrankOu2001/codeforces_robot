@@ -9,17 +9,29 @@ session = on_command("help", rule=to_me(), priority=1)
 
 @session.handle()
 async def Help(bot: Bot, event: Event, state: T_State):
-    totalHelp = """如果在群聊中，你可以直接@此bot来开始命令，例如：
-@bot echo BOKI
-或者，你可以用'/'/'伞兵'/'cf'来让bot接收你的命令，例如：
-伞兵 echo BOKI/ /echo BOKI / cf echo BOKI
-=======================
-目前bot拥有的命令：
-echo XXXX 让bot来说XXXXXX，图片或表情也可
-time 发送当前的时间
-天气 XXX 获取某地在此刻的天气 (weather 也可以)
-info XXXXX 读取并发送你在codeforces的账号的基本信息
-contests 显示codeforces近期的比赛以及链接
-以上！
-======================="""
+    totalHelp = """一只看起来还不怎么完善的机器人DA⭐ZE！
+
+当然，机器人也是有名字的，你可以叫他‘cf’/'ybbbot'(好奇怪的名字)
+
+你可以以 bot名字(或者@bot)+空格(非必要)+命令 的格式使bot接收指令=v=
+
+===================
+info 'Codeforces’ID' # 查询指定Codeforces'ID的基本信息
+
+contests # 查询Codeforces/AcCoder/牛客 近期的比赛
+
+考勤 # 查询今日钉钉的未出勤及请假人员
+
+出勤统计 # 查询本周钉钉成员的出勤情况
+
+time # 查询当前时间(并没有什么用)
+
+天气 '地点' # 查询'地点'的实时天气
+
+# bot会在工作日下午七点发送考勤情况
+
+# bot会在检测到的比赛开始前30min发送消息提醒（开发中）
+===================
+以下是现支持的命令，目前仍处于开发阶段，更多功能敬请期待()
+"""
     await session.finish(totalHelp)
