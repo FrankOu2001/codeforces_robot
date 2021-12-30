@@ -28,7 +28,7 @@ async def run(text):
     # print(code_type)
     lang, stdin, code = code_type[0], code_type[3], code_type[5]
     headers = {
-        "Authorization": "Token d913f0b5-02d3-4cf8-b6cd-e56c058c5bf8",
+        "Authorization": "Token 0123456-789a-bcde-f012-3456789abcde",
         "content-type": "application/"
     }
     dataJson = {

@@ -44,11 +44,6 @@ session = on_command("天气", rule=to_me(), priority=3)
 @session.handle()
 async def Weather(bot: Bot, event: Event, state: T_State):
     city = str(event.get_message()).strip()
-    if city == '兔头':
-        await session.send('兔头已被光明伟大正义聪慧的我，bot，夺舍了desu！')
-    elif city in ('乃琳', '珈乐', '嘉然', '向晚', '贝拉'):
-        city = '枝江'
-
     if not city:
         await session.reject('请输入地区名称！')
 
@@ -56,7 +51,7 @@ async def Weather(bot: Bot, event: Event, state: T_State):
     if type(city) == bool:
         await session.reject('请检查地区名称是否正确后重新输入！')
     else:
-        message = "查询时间 %s" % await time.get_current_time()
+        message = "查询时间 %s\n" % await time.get_current_time()
         #         for i in city:
         text = """名称: {}
 实时气温: {}℃

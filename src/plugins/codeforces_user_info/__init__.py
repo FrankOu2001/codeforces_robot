@@ -45,12 +45,11 @@ async def get_user_info(bot: Bot, event: Event, state: T_State):
 Last visit: {time}
 Rank: {rank}
 Rating: {rating}
-Score change in the last game: {scoreChange}
 Max rating: {maxRating}""" \
             .format(name=info.get('handle', 'anonymous'),
                     time=await timestamp_convert(info.get('lastOnlineTimeSeconds', 'very long')),
                     rank=info.get('rank', 'unknown'), rating=info.get('rating', 'unknown'),
-                    scoreChange='coming soon', maxRating=info.get('maxRating', 'unknown'))
+                     maxRating=info.get('maxRating', 'unknown'))
         title_img_url = info.get('titlePhoto')
         await session.send(MessageSegment.image(title_img_url, timeout=3))
     else:
