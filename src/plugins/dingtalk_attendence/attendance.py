@@ -4,7 +4,7 @@ from src.dingtalk_services.vacation import get_vacation
 from src.dingtalk_services.absence import get_absence
 
 
-async def attendance_result(query_time: datetime = datetime.today()) -> tuple[str, str]:
+async def attendance_result(query_time: datetime = datetime.now()) -> tuple[str, str]:
     """
     发送集训队的考勤状况
     :return: 缺勤和请假的信息

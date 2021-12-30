@@ -12,8 +12,8 @@ from src.contests_services import get_contest
 scheduler = require("nonebot_plugin_apscheduler").scheduler
 
 
-@scheduler.scheduled_job("cron", id="__monitor__", hour='4, 12, 20')
-# @scheduler.scheduled_job('interval', id='__monitor__', seconds=10) # for debug
+# @scheduler.scheduled_job("cron", id="__monitor__", hour='4, 12, 20')
+@scheduler.scheduled_job('interval', id='__monitor__', seconds=10) # for debug
 async def __monitor__():
     contests = await get_contest('')
 
@@ -23,7 +23,7 @@ async def __monitor__():
 
     for i in contests:
         time: datetime = i['contest_time'][0]
-        if (time - datetime.now()) <= timedelta(hours=12):
+        if timedelta(0) <= (time - datetime.now()) <= timedelta(hours=12):
             if datetime.now().hour == 20:
                 await __add_job__([i])
             job_id = i['name']
