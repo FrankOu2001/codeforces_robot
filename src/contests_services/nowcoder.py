@@ -29,12 +29,6 @@ async def get_contests():
 
     for i in data:
         h4 = i.h4
-        status = h4.span.string
-
-        # 不记录正在进行的比赛
-        if status == '比赛中':
-            continue
-
         name = h4.a.string
         link = 'https://ac.nowcoder.com' + h4.a['href']
         _ = [x.string.strip().replace('\n', '').replace('：', ' ').split()
@@ -44,11 +38,14 @@ async def get_contests():
             datetime.strptime(' '.join(_[0][1:3:]), '%Y-%m-%d %H:%M'),
             datetime.strptime(' '.join(_[0][4:6:]), '%Y-%m-%d %H:%M')
         )
+        if register_time[0] < datetime.now():
+            continue
+
         contest_time = (
             datetime.strptime(' '.join(_[1][1:3:]), '%Y-%m-%d %H:%M'),
             datetime.strptime(' '.join(_[1][4:6:]), '%Y-%m-%d %H:%M')
         )
-        holder = _[2][-1]
+        # holder = _[2][-1]
 
         contest.append({
             'name': name,
