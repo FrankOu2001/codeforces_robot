@@ -1,3 +1,5 @@
+import asyncio
+
 import httpx
 from httpx import HTTPError
 
@@ -6,7 +8,7 @@ from bs4 import BeautifulSoup
 from datetime import datetime, timedelta
 
 
-async def get_contests():
+async def __get_contests__():
     """
     爬取Cf的比赛
     :return: 返回[{name:, link:, contest_time:}]
@@ -50,3 +52,41 @@ async def get_contests():
 
         return contest
 
+
+async def get_contest() -> list:
+    """
+    从API拉取cf的比赛
+    :return:
+    """
+    req = None
+    try:
+        req = httpx.get('https://codeforces.com/api/contest.list?gym=false', timeout=5)
+        if req.json()['status'] != 'OK':
+            raise httpx.ConnectError
+    except httpx.ConnectError as e:
+        logger.error(e, '从api获取cf比赛失败')
+
+    data = req.json()['result']
+    contest = []
+
+    for x in data:
+        name = x['name']
+        phase = x['phase']
+        frozen = x['frozen']
+        if frozen:
+            continue
+            pass
+        elif phase == "FINISHED":
+            break
+
+        length = timedelta(seconds=x['durationSeconds'])
+        begin_time = datetime.fromtimestamp(x['startTimeSeconds']) + timedelta(hours=5)
+        end_time = begin_time + length
+
+        contest.append({
+            'name': name,
+            'link': f'https://codeforces.com/contestRegistration/{x["id"]}',
+            'contest_time': (begin_time, end_time)
+        })
+
+    return contest
