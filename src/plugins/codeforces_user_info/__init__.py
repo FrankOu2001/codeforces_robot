@@ -1,7 +1,7 @@
 import sys
 import httpx
 
-from nonebot import on_command
+from nonebot import on_command, logger
 from nonebot.rule import to_me
 from nonebot.adapters import Bot, Event
 from nonebot.adapters.cqhttp import MessageSegment
@@ -18,12 +18,12 @@ async def get_request(url):
         get = request.json()
 
         if request.status_code == httpx.codes.OK and get['status'] == 'OK' and len(get['result']):
-            print(get['result'])
+            logger.debug(get['result'])
             return True, get['result'][0]
         else:
             return False, request.status_code
     except httpx.HTTPError as e:
-        print(e, file=sys.stderr)
+        logger.error(e, file=sys.stderr)
         return False, e
 
 

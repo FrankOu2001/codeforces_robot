@@ -15,3 +15,4 @@ nonebot-bison>=0.4.2
 nonebot-plugin-status>=0.2.2
 nonebot-plugin-apscheduler>=0.1.2
 nonebot2>=2.0.0a16
+mariadb>=1.0.9

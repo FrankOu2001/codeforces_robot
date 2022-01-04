@@ -36,7 +36,7 @@ async def get_users() -> list[str: str]:
 
         # id_to_name 是通过user_id来获得名字
         logger.success('Successfully get {} users'.format(len(users)))
-        return users, id_to_name
+        return users[1::], id_to_name
 
     except httpx.HTTPError as e:
         logger.error('获取用户name和id时出现错误', e)
