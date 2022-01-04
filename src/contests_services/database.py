@@ -3,7 +3,7 @@ import sys
 
 import mariadb
 from datetime import datetime
-from nonebot import logger
+from nonebot import logger, require
 from . import codeforces, atcoder, nowcoder
 
 
@@ -127,6 +127,16 @@ async def pull_data(typename='') -> list:
     return data
 
 
+scheduler = require("nonebot_plugin_apscheduler").scheduler
+
+
+@scheduler.scheduled_job("cron", id="database_update", hour='3, 15')
+async def database_update():
+    await update('')
+
+
 if __name__ == '__main__':
     # asyncio.run(update(''))
     asyncio.run(pull_data('codeforces'))
+else:
+    asyncio.get_event_loop().run_until_complete(update(''))
