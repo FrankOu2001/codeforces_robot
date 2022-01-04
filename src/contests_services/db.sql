@@ -1,0 +1,22 @@
+CREATE DATABASE IF NOT EXISTS bot;
+use bot;
+
+CREATE TABLE IF NOT EXISTS `atcoder` (
+  `id` int unsigned NOT NULL AUTO_INCREMENT,
+  `data` text DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+CREATE TABLE IF NOT EXISTS `codeforces` (
+  `id` int unsigned NOT NULL AUTO_INCREMENT,
+  `data` text DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+CREATE TABLE IF NOT EXISTS `nowcoder` (
+  `id` int unsigned NOT NULL AUTO_INCREMENT,
+  `data` text DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+GRANT CREATE ON bot.* to 'bot'@'localhost';
