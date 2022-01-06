@@ -53,7 +53,7 @@ async def __get_contests__():
         return contest
 
 
-async def get_contest() -> list:
+async def get_contests() -> list:
     """
     从API拉取cf的比赛
     :return:
@@ -68,15 +68,10 @@ async def get_contest() -> list:
 
     data = req.json()['result']
     contest = []
-
     for x in data:
         name = x['name']
         phase = x['phase']
-        frozen = x['frozen']
-        if frozen:
-            continue
-            pass
-        elif phase == "FINISHED":
+        if phase == "FINISHED":
             break
 
         length = timedelta(seconds=x['durationSeconds'])
