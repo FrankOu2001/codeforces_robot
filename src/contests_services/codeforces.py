@@ -60,7 +60,7 @@ async def get_contests() -> list:
     """
     req = None
     try:
-        req = httpx.get('https://codeforces.com/api/contest.list?gym=false', timeout=5)
+        req = httpx.get('https://codeforces.com/api/contest.list?gym=false')
         if req.json()['status'] != 'OK':
             raise httpx.ConnectError
     except httpx.ConnectError as e:
@@ -75,7 +75,7 @@ async def get_contests() -> list:
             break
 
         length = timedelta(seconds=x['durationSeconds'])
-        begin_time = datetime.fromtimestamp(x['startTimeSeconds']) + timedelta(hours=5)
+        begin_time = datetime.fromtimestamp(x['startTimeSeconds'])
         end_time = begin_time + length
 
         contest.append({
@@ -84,4 +84,4 @@ async def get_contests() -> list:
             'contest_time': (begin_time, end_time)
         })
 
-    return contest
+    return contest[::-1]

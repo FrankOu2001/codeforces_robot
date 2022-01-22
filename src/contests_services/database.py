@@ -109,20 +109,28 @@ async def update(typename) -> bool:
 
 
 async def pull_data(typename='') -> list:
+    def data_formate(cur):
+        data = []
+        for i in cur:
+            x = eval(i[0])
+            x['contest_time'] = tuple(map(lambda it: datetime.strptime(it, '%Y-%m-%d %H:%M:%S'), x['contest_time']))
+            data.append(x)
+        return data
+
     connect = get_connect()
     cur = connect.cursor()
 
+    data = []
     if typename != '':
         cur.execute(f'SELECT data FROM {typename}')
+        data.extend(data_formate(cur))
     else:
-        cur.execute(f'SELECT data FROM codeforces')
-        cur.execute(f'SELECT data FROM atcoder')
-        cur.execute(f'SELECT data FROM nowcoder')
-    data = []
-    for i in cur:
-        x = eval(i[0])
-        x['contest_time'] = tuple(map(lambda it: datetime.strptime(it, '%Y-%m-%d %H:%M:%S'), x['contest_time']))
-        data.append(x)
+        logger.debug('get all contests')
+        contest_name = ['codeforces', 'atcoder', 'nowcoder']
+        for name in contest_name:
+            cur.execute(f'SELECT data from {name}')
+            data.extend(data_formate(cur))
+
     connect.close()
     return data
 

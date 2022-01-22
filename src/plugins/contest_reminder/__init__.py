@@ -1,5 +1,3 @@
-import sys
-
 from datetime import datetime, timedelta
 
 import nonebot
@@ -13,7 +11,7 @@ scheduler = require("nonebot_plugin_apscheduler").scheduler
 
 
 @scheduler.scheduled_job("cron", id="__monitor__", hour='3, 11, 19')
-# @scheduler.scheduled_job('interval', id='__monitor__', seconds=10) # for debug
+# @scheduler.scheduled_job('interval', id='__monitor__', seconds=10)  # for debug
 async def __monitor__():
     contests = await get_contest('')
 
@@ -23,7 +21,8 @@ async def __monitor__():
 
     for i in contests:
         time: datetime = i['contest_time'][0]
-        if timedelta(0) <= (time - datetime.now()) <= timedelta(hours=12):
+
+        if timedelta(minutes=0) <= (time - datetime.now()) <= timedelta(hours=16):
             if datetime.now().hour != 3:
                 await __add_job__([i])
             job_id = i['name']
@@ -38,14 +37,17 @@ async def __add_job__(args):
 
     bot = nonebot.get_bot()
     event = GroupMessageEvent
-    count: timedelta = contest['contest_time'][0] - datetime.now()
+    begin, end = contest['contest_time']
+    count: timedelta = begin - datetime.now()
 
     msg = (f"{contest['name']}\n" +
+           f"Time:{begin} - {end}\n" +
            f"在{int(count.total_seconds() // 60)}分钟后开始\n" +
            f"比赛链接{contest['link']}")
     logger.debug(msg)
 
     send_groups = [926293131, 516991226]
+    # send_groups = [539756695] # for debug
     for i in send_groups:
         event.group_id = i
         await bot.send(event=event, message=msg)
